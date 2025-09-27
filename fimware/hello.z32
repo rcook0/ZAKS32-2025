@@ -1,0 +1,6 @@
+LUI r1, 0x1000 ; UART base address
+ADDI r2, r0, 'H'
+ST [r1+0], r2
+ADDI r2, r0, 'I'
+ST [r1+0], r2
+HALT
