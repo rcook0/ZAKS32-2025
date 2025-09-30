@@ -1,0 +1,42 @@
+# System / Control Instructions
+
+NOP:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1, endi:1 }
+
+HLT:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { endi:1, io_space:1 }
+
+EI:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { io_space:1, endi:1 }
+
+DI:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { io_space:1, endi:1 }
+
+IN:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { pc_inc:1, src_a: MDR, wr_mar:1 }
+  - { io_space:1, mem_rd:1, wr_mdr:1 }
+  - { wr_rd:1, endi:1 }
+
+OUT:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { pc_inc:1, src_a: MDR, wr_mar:1 }
+  - { src_a: REG_RD, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { io_space:1, mem_wr:1, endi:1 }
+
+RETI:
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1 }
+  - { io_space:1, endi:1 }
