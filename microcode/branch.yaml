@@ -140,3 +140,92 @@ RST:
   - { mem_wr:1, src_a: MDR, wr_mar:1 }
   - { mem_wr:1, src_a: MDR, wr_mar:1 }
   - { src_a: CONST, alu_op: U_ALU_PASS, wr_pc:1, endi:1 }
+
+# Conditional CALLS (extended)
+
+CP:   # Call if Positive (Sign=0)
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { pc_inc:1, src_a: MDR, wr_mar:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { src_a: PC, wr_mdr:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_n:0, endi:1 }
+
+CM:   # Call if Minus (Sign=1)
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { pc_inc:1, src_a: MDR, wr_mar:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { src_a: PC, wr_mdr:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_n:1, endi:1 }
+
+CPE:  # Call if Parity Even
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { pc_inc:1, src_a: MDR, wr_mar:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { src_a: PC, wr_mdr:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_p:1, endi:1 }
+
+CPO:  # Call if Parity Odd
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { pc_inc:1, src_a: MDR, wr_mar:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { src_a: PC, wr_mdr:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_p:0, endi:1 }
+
+# Conditional Returns
+
+RZ:   # Return if Zero
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_z:1, endi:1 }
+
+RNZ:  # Return if Not Zero
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_z:0, endi:1 }
+
+RC:   # Return if Carry
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_c:1, endi:1 }
+
+RNC:  # Return if Not Carry
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_c:0, endi:1 }
+
+RP:   # Return if Positive (Sign=0)
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_n:0, endi:1 }
+
+RM:   # Return if Minus (Sign=1)
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_n:1, endi:1 }
+
+RPE:  # Return if Parity Even
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_p:1, endi:1 }
+
+RPO:  # Return if Parity Odd
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1, jam_p:0, endi:1 }
+  
