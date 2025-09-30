@@ -1,0 +1,40 @@
+# Stack Instructions
+
+PUSH:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: SP, alu_op: U_ALU_SUB, src_b: CONST2, wr_sp:1 }
+  - { src_a: REG_RP_HIGH, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { mem_wr:1, src_a: SP, wr_mar:1 }
+  - { src_a: REG_RP_LOW, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { mem_wr:1, src_a: SP, wr_mar:1, endi:1 }
+
+POP:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: SP, wr_mar:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { wr_rp_low:1 }
+  - { src_a: SP, alu_op: U_ALU_ADD, src_b: CONST1, wr_sp:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { wr_rp_high:1 }
+  - { src_a: SP, alu_op: U_ALU_ADD, src_b: CONST1, wr_sp:1, endi:1 }
+
+SPHL:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: REG_HL, alu_op: U_ALU_PASS, wr_sp:1, endi:1 }
+
+XTHL:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: SP, wr_mar:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { src_a: REG_HL_LOW, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { mem_wr:1 }
+  - { wr_hl_low:1 }
+  - { src_a: SP, alu_op: U_ALU_ADD, src_b: CONST1, wr_sp:1 }
+  - { mem_rd:1, wr_mdr:1 }
+  - { src_a: REG_HL_HIGH, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { mem_wr:1 }
+  - { wr_hl_high:1, endi:1 }
