@@ -1,31 +1,34 @@
-; RESET: init SP, print H and I
-0000_????   ; LXI SP,0xFF00
-0004_????   ; MVI R1,'H'
-0008_????   ; CALL PUTCHAR
-000C_????   ; MVI R1,'I'
-0010_????   ; CALL PUTCHAR
+; RESET
+0404_0048   ; MVI R1,'H' (0x48)
+0900_0100   ; CALL 0x0100
+0404_0049   ; MVI R1,'I' (0x49)
+0900_0100   ; CALL 0x0100
 
-; LOOP: print '*' 5 times
-0014_????   ; MVI R2,5
-0018_????   ; MVI R1,'*'
-001C_????   ; CALL PUTCHAR
-0020_????   ; DCR R2
-0024_????   ; JNZ LOOP (→0018)
+; LOOP
+0408_0005   ; MVI R2,5
+0404_002A   ; MVI R1,'*' (0x2A)
+0900_0100   ; CALL 0x0100
+0308_0000   ; DCR R2
+0800_FFFC   ; JNZ -4 words (branch back to MVI R1,'*')
 
-; test PUSH/POP
-0028_????   ; PUSH RP0
-002C_????   ; POP RP0
+; PUSH/POP test
+0B00_0000   ; PUSH RP0
+0C00_0000   ; POP  RP0
 
-; idle until interrupt
-0030_????   ; HLT
-0034_????   ; JMP IDLE (→0030)
+; idle
+0E00_0000   ; HLT
+0700_FFFE   ; JMP -2 words (loop at HLT)
 
-; PUTCHAR subroutine
-0100_????   ; MVI R3,0x00
-0104_????   ; OUT R1,R3
-0108_????   ; RET
+; -----------------------------
+; Subroutine PUTCHAR at 0x0100
+; -----------------------------
+0100: 040C_0000   ; MVI R3,0
+       0D00_1300   ; OUT R1,R3
+       0A00_0000   ; RET
 
-; ISR: timer interrupt prints 'T'
-0200_????   ; MVI R1,'T'
-0204_????   ; CALL PUTCHAR
-0208_????   ; RETI
+; -----------------------------
+; ISR at 0x0200
+; -----------------------------
+0200: 0404_0054   ; MVI R1,'T' (0x54)
+       0900_0100   ; CALL PUTCHAR
+       0F00_0000   ; RETI
