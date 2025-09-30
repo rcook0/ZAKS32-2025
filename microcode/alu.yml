@@ -1,0 +1,22 @@
+ADD:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: REG_RS1, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { src_a: REG_RS2, alu_op: U_ALU_PASS, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_ADD, flags_we:1, wr_mdr:1 }
+  - { src_a: MDR, alu_op: U_ALU_PASS, wr_rd:1, endi:1 }
+
+SUB:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: REG_RS1, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { src_a: REG_RS2, alu_op: U_ALU_PASS, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_SUB, flags_we:1, wr_mdr:1 }
+  - { src_a: MDR, alu_op: U_ALU_PASS, wr_rd:1, endi:1 }
+
+CMP:
+  - { mem_rd:1, wr_mdr:1 }
+  - { ir_load:1, pc_inc:1 }
+  - { src_a: REG_RS1, alu_op: U_ALU_PASS, wr_mdr:1 }
+  - { src_a: REG_RS2, alu_op: U_ALU_PASS, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_SUB, flags_we:1, endi:1 }
