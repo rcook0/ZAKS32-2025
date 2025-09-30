@@ -219,7 +219,7 @@ module soc_top (
     logic [31:0] rom [0:16383];   // 64 KB / 16K words
     logic [31:0] ram [0:262143];  // 1 MB / 256K words
 
-    initial $readmemh("hello.hex", rom);
+    initial $readmemh("monitor_demo.hex", rom);
 
     // UART + Timer
     logic        uart_we;
