@@ -34,7 +34,15 @@ int main(int argc, char **argv) {
         }
         
         main_time++;
+        if (main_time > MAX_TIME) {
+            for (int i=0; i<16; i++) {
+                 std::cout << "REGDUMP " << i << " " 
+                           << std::hex << top->regfile_dbg[i] << std::endl;
+            }
+            break;
+        }
     }
+    
     delete top;
     return 0;
 }
