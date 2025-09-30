@@ -1,5 +1,6 @@
 #include "Vsoc_top.h"
 #include "verilated.h"
+#include "iss.h" // Python ISS callable via pybind11 or IPC
 #include <iostream>
 
 vluint64_t main_time = 0;
