@@ -1,0 +1,41 @@
+; Zaks32-2025 Monitor Demo
+; Exercises calls, stack, conditionals, and UART output
+
+        ORG 0x0000
+
+RESET:  LXI   SP, 0xFF00        ; init stack near top of RAM
+        MVI   R1, 'H'           ; load 'H'
+        CALL  PUTCHAR
+        MVI   R1, 'I'           ; load 'I'
+        CALL  PUTCHAR
+
+        MVI   R2, 5             ; loop counter
+LOOP:   MVI   R1, '*'           ; char to print
+        CALL  PUTCHAR
+        DCR   R2
+        JNZ   LOOP
+
+        ; test stack ops
+        PUSH  RP0               ; save HL (dummy)
+        POP   RP0
+
+        ; idle until interrupt
+IDLE:   HLT
+        JMP   IDLE
+
+; ------------------------------------------------------------
+; Subroutine: PUTCHAR (writes R1 -> UART)
+; ------------------------------------------------------------
+PUTCHAR:
+        MVI   R3, 0x00          ; UART port base (0x1000_0000 low byte)
+        OUT   R1, R3
+        RET
+
+; ------------------------------------------------------------
+; Interrupt Service Routine (timer IRQ)
+; prints 'T' then returns with RETI
+; ------------------------------------------------------------
+ISR:    
+        MVI   R1, 'T'
+        CALL  PUTCHAR
+        RETI
