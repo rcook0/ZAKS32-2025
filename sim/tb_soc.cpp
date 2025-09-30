@@ -22,16 +22,16 @@ int main(int argc, char **argv) {
 
         // ISS Diff
         if (top->commit_valid) {
-        uint32_t instr = top->commit_instr;
-        iss.step(instr);   // update reference model
+            uint32_t instr = top->commit_instr;
+            iss.step(instr);   // update reference model
 
-        for (int i = 0; i < 16; i++) {
-            if (top->regfile[i] != iss.regs[i]) {
-                VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
-                            ("Regfile mismatch at r" + std::to_string(i)).c_str());
+            for (int i = 0; i < 16; i++) {
+                if (top->regfile[i] != iss.regs[i]) {
+                    VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
+                                ("Regfile mismatch at r" + std::to_string(i)).c_str());
+                }
             }
         }
-    }
         
         main_time++;
     }
