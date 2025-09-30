@@ -40,3 +40,16 @@ RETI:
   - { mem_rd:1, wr_mar:1 }
   - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1 }
   - { io_space:1, endi:1 }
+
+# Interrupt entry (implicit — sequencer vectors to a fixed uPC)
+INT_ENTRY:
+  - { src_a: PC, wr_mdr:1 }
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }  # push low
+  - { mem_wr:1, src_a: MDR, wr_mar:1 }  # push high
+  - { src_a: CONST, alu_op: U_ALU_PASS, wr_pc:1, endi:1 } # jump to ISR vector
+
+RETI:
+  - { mem_rd:1, wr_mdr:1 }
+  - { mem_rd:1, wr_mar:1 }
+  - { src_a: MDR, src_b: MAR, alu_op: U_ALU_PASS, wr_pc:1 }
+  - { io_space:1, endi:1 }   # side effect: INT_ENABLE ← 1
