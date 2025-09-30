@@ -14,10 +14,25 @@ int main(int argc, char **argv) {
     while (!Verilated::gotFinish() && main_time < 200000) {
         top->clk = (main_time & 1);
         top->eval();
+        
         if (top->uart_tx_ready) {
             char c = (char)top->uart_tx_data;
             std::cout << c << std::flush;
         }
+
+        // ISS Diff
+        if (top->commit_valid) {
+        uint32_t instr = top->commit_instr;
+        iss.step(instr);   // update reference model
+
+        for (int i = 0; i < 16; i++) {
+            if (top->regfile[i] != iss.regs[i]) {
+                VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
+                            ("Regfile mismatch at r" + std::to_string(i)).c_str());
+            }
+        }
+    }
+        
         main_time++;
     }
     delete top;
