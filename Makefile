@@ -1,3 +1,7 @@
+PYTHON := python3
+UASM := tools/uasm.py
+ASMZ32 := tools/asmz32.py
+
 rom:
     python3 tools/uasm.py microcode/ucode.yaml
     python3 tools/asmz32.py firmware/hello.z32 -o hello.hex
