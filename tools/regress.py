@@ -128,6 +128,8 @@ def main():
     regress(test_branch_loop(), "Branch Loop")
     regress(test_stack(), "Stack Ops")
     regress(test_io(), "I/O UART")
+    regress(test_mem_abs(), "Memory Absolute")
+    regress(test_mem_indirect(), "Memory Indirect")
     regress(random_prog(64), "Random Fuzz")
 
 if __name__ == "__main__":
