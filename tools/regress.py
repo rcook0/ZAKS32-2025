@@ -49,6 +49,30 @@ def test_io():
         encode(HLT)
     ]
 
+# Memory tests
+
+def test_mem_abs():
+    """Store to absolute address, then load back"""
+    return [
+        encode(MVI, rd=1, imm=123),     # R1=123
+        encode(STA, rs1=1, imm=0x010),  # MEM[0x10] = R1
+        encode(MVI, rd=2, imm=0),       # Clear R2
+        encode(LDA, rd=2, imm=0x010),   # R2 = MEM[0x10]
+        encode(HLT)
+    ]
+
+def test_mem_indirect():
+    """Use register pair pointer for LDAX/STAX"""
+    return [
+        encode(MVI, rd=1, imm=77),       # R1=77
+        encode(MVI, rd=3, imm=0x020),    # R3=0x20 (pointer base)
+        encode(STAX, rs1=3, rs2=1),      # MEM[R3] = R1
+        encode(MVI, rd=2, imm=0),        # Clear R2
+        encode(LDAX, rd=2, rs1=3),       # R2 = MEM[R3]
+        encode(HLT)
+    ]
+
+
 # --- Random generator as before ---
 
 def random_instr():
